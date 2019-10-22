@@ -227,7 +227,7 @@ function parse_into_regex() {
 
                     if [ $a -eq ${prev_m} ]; then
                         if [ "${repeat}" -gt 0 ]; then
-                            local repeat_p=$(( "${repeat} + 1" ))
+                            local repeat_p=$(( ${repeat} + 1 ))
                             reg+="{${repeat_p}}"
                         else
                             reg+="[${from}-${to}]"
