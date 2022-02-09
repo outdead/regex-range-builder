@@ -81,7 +81,7 @@ function parse_end() {
        return 1
     fi
 
-    if (( "${from}" > "${to}")); then
+    if [ "${from}" -gt "${to}" ]; then
        echo "arg from can not be greater than arg to" >&2
        return 1
     fi
@@ -89,10 +89,10 @@ function parse_end() {
     declare -i len_from; let len_from="${#from}"
     declare -i len_to; let len_to="${#to}"
 
-    if [ ${len_from} -eq 1 ]; then
+    if [ "${len_from}" -eq 1 ]; then
         local result=(${from} ${to})
 
-        echo ${result[@]}; return
+        echo "${result[@]}"; return
     fi
 
     local join_from=$(repeat "0" ${len_from})
@@ -101,7 +101,7 @@ function parse_end() {
         if [ "${join_to}" -eq "9${to:1}" ]; then
             local result=(${from} ${to})
 
-            echo ${result[@]}; return
+            echo "${result[@]}"; return
         fi
 
         if (( "${from:0:1}" < "${to:0:1}" )); then
@@ -117,7 +117,7 @@ function parse_end() {
             local break_point2=$(create_break_point ${e})
             local result=(${from} ${break_point2} ${injection})
 
-            echo ${result[@]}; return
+            echo "${result[@]}"; return
         fi
     fi
 
@@ -138,7 +138,7 @@ function parse_end() {
         local break_point2=$(create_break_point $(($e + 1)))
         local result=(${injection} ${break_point2} ${to})
 
-        echo ${result[@]}; return
+        echo "${result[@]}"; return
     fi
 
     if (( "${from:0:1}" < "${to:0:1}" )); then
@@ -161,7 +161,7 @@ function parse_end() {
         fi
         local result=(${injection1} ${injection2})
 
-        echo ${result[@]}; return
+        echo "${result[@]}"; return
     fi
 
     local o=$(parse_end "${from:1}" "${to:1}")
@@ -314,7 +314,7 @@ function combine() {
        return 1
     fi
 
-    if (( "${from}" > "${to}")); then
+    if [ "${from}" -gt "${to}" ]; then
        echo "arg from can not be greater than arg to" >&2
        return 1
     fi
@@ -342,9 +342,9 @@ function combine() {
     done
 
     local range=$(parse_into_regex "${end_range}")
-    parse_into_pattern "${range}" $3 $4 $5
+    parse_into_pattern "${range}" "$3" "$4" "$5"
 }
 
-if [ ! -z $1 ] && [ ! -z $2 ]; then
-    combine $1 $2 $3 $4 $5
+if [ -n "$1" ] && [ -n "$2" ]; then
+    combine "$1" "$2" "$3" "$4" "$5"
 fi
